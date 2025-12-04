@@ -194,11 +194,13 @@ function init() {
 }
 
 function toggleSidebar() {
+    if(!sidebar) return;
     sidebar.classList.toggle('open');
     overlay.classList.toggle('active');
 }
 
 function closeSidebar() {
+    if (!sidebar) return;
     sidebar.classList.remove('open');
     overlay.classList.remove('active');
 }
@@ -219,6 +221,7 @@ function toggleTheme() {
 }
 
 function updateThemeIcon(theme) {
+    if (!themeToggle) return;
     const icon = themeToggle.querySelector('i');
     const text = themeToggle.querySelector('span');
     
@@ -282,13 +285,13 @@ function populateUnits(category) {
 
     keys.forEach(key => {
         const label = unitData.labels[key];
-        fromUnitSelect.add(new Option(label, key));
-        toUnitSelect.add(new Option(label, key));
+        if (fromUnitSelect) fromUnitSelect.add(new Option(label, key));
+        if (toUnitSelect) toUnitSelect.add(new Option(label, key));
     });
 
     // Set defaults (first and second item usually)
-    fromUnitSelect.selectedIndex = 0;
-    toUnitSelect.selectedIndex = 1;
+    if (fromUnitSelect) fromUnitSelect.selectedIndex = 0;
+    if (toUnitSelect) toUnitSelect.selectedIndex = 1;
 
     // If in multi-view, re-render results
     if (isMultiView) {
@@ -445,7 +448,9 @@ function addToHistory(valIn, unitIn, valOut, unitOut) {
             unitIn: units[currentCategory].labels[unitIn],
             valOut,
             unitOut: units[currentCategory].labels[unitOut],
-            date: new Date().toLocaleString()
+            date: new Date().toLocaleString(),
+            category: currentCategory,
+            categoryLabel: currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)
         };
 
         // Add to beginning, limit to 20 items
@@ -458,6 +463,7 @@ function addToHistory(valIn, unitIn, valOut, unitOut) {
 }
 
 function renderHistory() {
+    if(!historyList) return;
     historyList.innerHTML = '';
     
     if (history.length === 0) {
@@ -469,9 +475,10 @@ function renderHistory() {
         const li = document.createElement('li');
         li.className = 'history-item';
         li.innerHTML = `
-            <div class="history-details">
+            <div class="history-details" style="position:relative; padding-right:6rem;">
                 <span class="history-conversion">${item.valIn} ${item.unitIn} = ${item.valOut} ${item.unitOut}</span>
                 <span class="history-date">${item.date}</span>
+                <span class="history-category" style="position:absolute; right:8px; top:8px; font-size:0.85rem; opacity:0.85;">${categoryLabel}</span>
             </div>
         `;
         historyList.appendChild(li);
@@ -563,3 +570,4 @@ function updateCurrencyRates(apiRates, timestamp) {
 
 // Start
 init();
+
