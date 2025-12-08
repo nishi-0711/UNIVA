@@ -407,6 +407,12 @@ body {
     gap: 4px;
 }
 
+.history-details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .history-conversion {
     font-weight: 500;
     color: var(--text-primary);
@@ -674,3 +680,4 @@ body {
 .result-card.highlighted .unit-label {
     color: var(--primary-color);
 }
+
