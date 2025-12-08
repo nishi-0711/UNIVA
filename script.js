@@ -483,8 +483,10 @@ function renderHistory() {
         // Keep layout same as before, add a small category label on the top-right
         li.innerHTML = `
             <div class="history-details" style="position:relative; padding-right:6rem;">
-                <span class="history-conversion">${item.valIn} ${item.unitIn} = ${item.valOut} ${item.unitOut}</span>
-                <span class="history-date">${item.date}</span>
+                <div>
+                    <span class="history-conversion">${item.valIn} ${item.unitIn} = ${item.valOut} ${item.unitOut}</span>
+                    <span class="history-date">${item.date}</span>
+                </div>
                 <span class="history-category" style="position:absolute; right:8px; top:8px; font-size:0.85rem; opacity:0.85;">${categoryLabel}</span>
             </div>
         `;
@@ -579,3 +581,4 @@ function updateCurrencyRates(apiRates, timestamp) {
 
 // Start
 init();
+
